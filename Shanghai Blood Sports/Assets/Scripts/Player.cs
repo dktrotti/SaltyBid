@@ -31,35 +31,35 @@ public class Player : MonoBehaviour
         //    animator.SetBool("walking", false);
         //}
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Neutral")) {
-            if (Input.GetKeyDown(KeyCode.J)) {
-                animator.SetTrigger("punch");
-            }
+        //if (animator.GetCurrentAnimatorStateInfo(0).IsName("Neutral")) {
+        //    if (Input.GetKeyDown(KeyCode.J)) {
+        //        animator.SetTrigger("punch");
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.K)) {
-                animator.SetTrigger("low_kick");
-            }
+        //    if (Input.GetKeyDown(KeyCode.K)) {
+        //        animator.SetTrigger("low_kick");
+        //    }
 
-            if (Input.GetKeyDown(KeyCode.I)) {
-                animator.SetTrigger("high_kick");
-            }
+        //    if (Input.GetKeyDown(KeyCode.I)) {
+        //        animator.SetTrigger("high_kick");
+        //    }
 
-            if (Input.GetKey(KeyCode.O)) {
-                animator.SetBool("high_block", true);
-            }
+        //    if (Input.GetKey(KeyCode.O)) {
+        //        animator.SetBool("high_block", true);
+        //    }
 
-            if (Input.GetKey(KeyCode.L)) {
-                animator.SetBool("low_block", true);
-            }
-        }
+        //    if (Input.GetKey(KeyCode.L)) {
+        //        animator.SetBool("low_block", true);
+        //    }
+        //}
 
-        if (!Input.GetKey(KeyCode.O)) {
-            animator.SetBool("high_block", false);
-        }
+        //if (!Input.GetKey(KeyCode.O)) {
+        //    animator.SetBool("high_block", false);
+        //}
 
-        if (!Input.GetKey(KeyCode.L)) {
-            animator.SetBool("low_block", false);
-        }
+        //if (!Input.GetKey(KeyCode.L)) {
+        //    animator.SetBool("low_block", false);
+        //}
     }
 
     void OnTriggerEnter2D(Collider2D col) // col is the trigger object we collided with
