@@ -17,12 +17,14 @@ public class Character : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         healthIndicator = transform.GetChild(0).GetComponent<TextMesh>();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
 
     }
 }

@@ -9,19 +9,22 @@ public class Player : MonoBehaviour
     private Animator animator;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         var input = Input.GetAxis("Horizontal"); // This will give us left and right movement (from -1 to 1). 
         var movement = input * speed;
 
         rb.velocity = new Vector3(movement, rb.velocity.y, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             rb.AddForce(new Vector3(0, 200, 0)); // Adds 100 force straight up, might need tweaking on that number
         }
 
@@ -31,33 +34,41 @@ public class Player : MonoBehaviour
         //    animator.SetBool("walking", false);
         //}
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral")) {
-            if (Input.GetKeyDown(KeyCode.J)) {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
+        {
+            if (Input.GetKeyDown(KeyCode.J))
+            {
                 animator.SetTrigger("punch");
             }
 
-            if (Input.GetKeyDown(KeyCode.K)) {
+            if (Input.GetKeyDown(KeyCode.K))
+            {
                 animator.SetTrigger("low_kick");
             }
 
-            if (Input.GetKeyDown(KeyCode.I)) {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
                 animator.SetTrigger("high_kick");
             }
 
-            if (Input.GetKey(KeyCode.O)) {
+            if (Input.GetKey(KeyCode.O))
+            {
                 animator.SetBool("high_block", true);
             }
 
-            if (Input.GetKey(KeyCode.L)) {
+            if (Input.GetKey(KeyCode.L))
+            {
                 animator.SetBool("low_block", true);
             }
         }
 
-        if (!Input.GetKey(KeyCode.O)) {
+        if (!Input.GetKey(KeyCode.O))
+        {
             animator.SetBool("high_block", false);
         }
 
-        if (!Input.GetKey(KeyCode.L)) {
+        if (!Input.GetKey(KeyCode.L))
+        {
             animator.SetBool("low_block", false);
         }
     }
