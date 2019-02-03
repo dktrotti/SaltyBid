@@ -9,43 +9,62 @@ namespace Assets.Scripts.Events {
         public void onEvent<EVENT, ARGS>(EVENT e)
             where EVENT : Event<ARGS>
             where ARGS : EventArgs {
-            if (e is HitEvent hit) {
-                onEvent(hit);
-            } else if (e is DamageEvent dam) {
-                onEvent(dam);
-            } else if (e is MoveStartEvent movs) {
-                onEvent(movs);
-            } else if (e is MoveEndEvent move) {
-                onEvent(move);
-            } else if (e is JumpEvent jump) {
-                onEvent(jump);
-            } else if (e is ForceEvent force) {
-                onEvent(force);
-            } else if (e is WalkStartEvent walks) {
-                onEvent(walks);
-            } else if (e is WalkEndEvent walke) {
-                onEvent(walke);
-            } else if (e is GrappleEvent grap) {
-                onEvent(grap);
-            } else if (e is BlockEvent block) {
-                onEvent(block);
-            } else if (e is ParryEvent parry) {
-                onEvent(parry);
-            } else if (e is GuardSpentEvent grdsp) {
-                onEvent(grdsp);
-            } else if (e is MeterSpentEvent metsp) {
-                onEvent(metsp);
-            } else if (e is StunEvent stun) {
-                onEvent(stun);
-            } else if (e is DeathEvent death) {
-                onEvent(death);
-            } else if (e is MatchEndEvent end) {
-                onEvent(end);
-            } else if (e is UpdateEvent upd) {
-                onEvent(upd);
+            switch (e) {
+                case HitEvent ev:
+                    onEvent(ev);
+                    break;
+                case DamageEvent ev:
+                    onEvent(ev);
+                    break;
+                case MoveStartEvent ev:
+                    onEvent(ev);
+                    break;
+                case MoveEndEvent ev:
+                    onEvent(ev);
+                    break;
+                case JumpEvent ev:
+                    onEvent(ev);
+                    break;
+                case ForceEvent ev:
+                    onEvent(ev);
+                    break;
+                case WalkStartEvent ev:
+                    onEvent(ev);
+                    break;
+                case WalkEndEvent ev:
+                    onEvent(ev);
+                    break;
+                case GrappleEvent ev:
+                    onEvent(ev);
+                    break;
+                case BlockEvent ev:
+                    onEvent(ev);
+                    break;
+                case ParryEvent ev:
+                    onEvent(ev);
+                    break;
+                case GuardSpentEvent ev:
+                    onEvent(ev);
+                    break;
+                case MeterSpentEvent ev:
+                    onEvent(ev);
+                    break;
+                case StunEvent ev:
+                    onEvent(ev);
+                    break;
+                case DeathEvent ev:
+                    onEvent(ev);
+                    break;
+                case MatchEndEvent ev:
+                    onEvent(ev);
+                    break;
+                case UpdateEvent ev:
+                    onEvent(ev);
+                    break;
+                default:
+                    throw new ArgumentException("Unknown event type");
             }
 
-            throw new ArgumentException("Unknown event type");
         }
 
         public virtual void onEvent(HitEvent e) { }
