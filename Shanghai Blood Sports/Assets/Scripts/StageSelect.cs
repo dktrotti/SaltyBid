@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class CharacterSelect : MonoBehaviour
+public class StageSelect : MonoBehaviour
 {
-    public GameObject mainMenu;
-    public GameObject stageSelect;
+    public GameObject characterSelect;
+    public string fightSceneName;
 
     // Start is called before the first frame update
     void Start()
@@ -18,14 +19,13 @@ public class CharacterSelect : MonoBehaviour
     {
         if (Input.GetButtonDown("Cancel"))
         {
-            mainMenu.SetActive(true);
+            characterSelect.SetActive(true);
             gameObject.SetActive(false);
         }
 
         if (Input.GetButtonDown("Submit"))
         {
-            stageSelect.SetActive(true);
-            gameObject.SetActive(false);
+            SceneManager.LoadScene(fightSceneName);
         }
     }
 }
