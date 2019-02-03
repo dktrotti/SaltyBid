@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Events {
-    class EventManager {
+namespace Assets.Scripts.Events
+{
+    class EventManager
+    {
         private HashSet<EventHandler> handlers = new HashSet<EventHandler>();
 
-        public void AddHandler(EventHandler handler) {
+        public void AddHandler(EventHandler handler)
+        {
             handlers.Add(handler);
         }
 
-        public void RemoveHandler(EventHandler handler) {
+        public void RemoveHandler(EventHandler handler)
+        {
             handlers.Remove(handler);
         }
 
@@ -22,16 +26,19 @@ namespace Assets.Scripts.Events {
         /// </summary>
         public void raiseEvent<EVENT, ARGS>(EVENT e)
             where EVENT : Event<ARGS>
-            where ARGS : EventArgs {
-            foreach (var handler in handlers) {
-                if (!e.Source.Contains(handler)) {
+            where ARGS : EventArgs
+        {
+            foreach (var handler in handlers)
+            {
+                if (!e.Source.Contains(handler))
+                {
                     handler.onEvent<EVENT, ARGS>(e);
                 }
             }
 
             e.Execute();
         }
-        
+
         // TODO: Add raiseEvent overloads for events that need additional handling
         // e.g. Hit event -> Damage event
     }

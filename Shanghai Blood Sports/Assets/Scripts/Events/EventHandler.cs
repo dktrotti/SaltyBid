@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Assets.Scripts.Events {
-    public class EventHandler {
+namespace Assets.Scripts.Events
+{
+    public class EventHandler
+    {
         public void onEvent<EVENT, ARGS>(EVENT e)
             where EVENT : Event<ARGS>
-            where ARGS : EventArgs {
-            switch (e) {
+            where ARGS : EventArgs
+        {
+            switch (e)
+            {
                 case HitEvent ev:
                     onEvent(ev);
                     break;
