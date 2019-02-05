@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     public float speed = 3f;
     private Rigidbody2D rb;
     private Animator animator;
+    private State state = State.NEUTRAL;
+    private bool grounded = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,9 +23,28 @@ public class Player : MonoBehaviour
         var input = Input.GetAxis("Horizontal"); // This will give us left and right movement (from -1 to 1). 
         var movement = input * speed;
 
+        if (!grounded)
+        {
+            state = State.MIDAIR;
+        }
+        else if (input < 0)
+        {
+            state = State.BACK_WALK;
+        }
+        else if (input > 0)
+        {
+            state = State.FORWARD_WALK;
+        }
+        else
+        {
+            state = State.NEUTRAL;
+        }
+
+        UpdateAnimator();
+
         rb.velocity = new Vector3(movement, rb.velocity.y, 0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && state != State.MIDAIR)
         {
             rb.AddForce(new Vector3(0, 200, 0)); // Adds 100 force straight up, might need tweaking on that number
         }
@@ -73,8 +94,54 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col) // col is the trigger object we collided with
+    private void UpdateAnimator()
     {
-
+        switch (state)
+        {
+            case State.NEUTRAL:
+                animator.SetBool("back_walk", false);
+                animator.SetBool("forward_walk", false);
+                animator.SetBool("midair", false);
+                break;
+            case State.MIDAIR:
+                animator.SetBool("back_walk", false);
+                animator.SetBool("forward_walk", false);
+                animator.SetBool("midair", true);
+                break;
+            case State.BACK_WALK:
+                animator.SetBool("back_walk", true);
+                animator.SetBool("forward_walk", false);
+                animator.SetBool("midair", false);
+                break;
+            case State.FORWARD_WALK:
+                animator.SetBool("back_walk", false);
+                animator.SetBool("forward_walk", true);
+                animator.SetBool("midair", false);
+                break;
+        }
     }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag.Equals("Ground"))
+        {
+            grounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag.Equals("Ground"))
+        {
+            grounded = false;
+        }
+    }
+
+    public enum State
+    {
+        NEUTRAL,
+        MIDAIR,
+        BACK_WALK,
+        FORWARD_WALK
+    };
 }
