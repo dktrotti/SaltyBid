@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        var input = Input.GetAxis("Horizontal"); // This will give us left and right movement (from -1 to 1). 
+        var input = Input.GetAxis("Horizontal");
         var movement = input * speed;
 
         if (!grounded)
@@ -46,14 +46,8 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && state != State.MIDAIR)
         {
-            rb.AddForce(new Vector3(0, 200, 0)); // Adds 100 force straight up, might need tweaking on that number
+            rb.AddForce(new Vector3(0, 200, 0));
         }
-
-        //if (input != 0) {
-        //    animator.SetBool("walking", true);
-        //} else {
-        //    animator.SetBool("walking", false);
-        //}
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
         {
