@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - FightState
+  - Ground
   layers:
   - Default
   - TransparentFX
