@@ -32,10 +32,6 @@ public class Hitbox : MonoBehaviour
         {
             // TODO: Find a way to deactive the entire move?
             // This allows the same move to hit the opponent multiple times in different hitboxes
-
-            // TODO: Figure out why this can still hit multiple times
-            // I think it's related to the animation duration, and also the fact that you can hold
-            // the key down to repeat the animation
             Active = false;
 
             owner.Opponent.Health -= 10;
