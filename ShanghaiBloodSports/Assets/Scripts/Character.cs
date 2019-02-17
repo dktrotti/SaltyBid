@@ -39,14 +39,11 @@ public class Character : MonoBehaviour
         }
     }
 
-    private Character GetOpponent()
-    {
-        return FindObjectsOfType<Character>().Where(c => c != this).Single();
-    }
+    public Character Opponent => FindObjectsOfType<Character>().Where(c => c != this).Single();
 
     private bool ToLeftOfOpponent()
     {
-        var opponent = GetOpponent();
+        var opponent = Opponent;
 
         var relativeXPosition = opponent.transform.position.x - transform.position.x;
 

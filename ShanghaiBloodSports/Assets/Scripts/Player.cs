@@ -131,6 +131,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void activateHitbox(string hitboxName)
+    {
+        setHitboxState(hitboxName, true);
+    }
+
+    public void deactivateHitbox(string hitboxName)
+    {
+        setHitboxState(hitboxName, false);
+    }
+    
+    private void setHitboxState(string hitboxName, bool state)
+    {
+        Hitbox hitbox = transform.Find(hitboxName)?.gameObject?.GetComponent<Hitbox>();
+        if (hitbox != null)
+        {
+            hitbox.Active = state;
+        }
+    }
+
     public enum State
     {
         NEUTRAL,
