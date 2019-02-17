@@ -27,13 +27,18 @@ public class Hitbox : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D col)
     {
-        Hitbox other = col.gameObject.GetComponent<Hitbox>();
+        Hitbox other = col.collider.GetComponent<Hitbox>();
         if (other != null && Active && !other.Active)
         {
             // TODO: Find a way to deactive the entire move?
-            // This allows the same move to hit multiple times with different hitboxes
+            // This allows the same move to hit the opponent multiple times in different hitboxes
+
+            // TODO: Figure out why this can still hit multiple times
+            // I think it's related to the animation duration, and also the fact that you can hold
+            // the key down to repeat the animation
             Active = false;
 
+            owner.Opponent.Health -= 10;
             // TODO: Emit hit event with owner's current move
         }
     }
