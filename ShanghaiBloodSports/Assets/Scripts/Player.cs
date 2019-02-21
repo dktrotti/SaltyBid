@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Moves;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +7,17 @@ public class Player : MonoBehaviour
 {
     public float speed = 3f;
     private Rigidbody2D rb;
-    private Animator animator;
     private State state = State.NEUTRAL;
     private bool grounded = false;
+    private Move currentMove = null;
+
+    public Animator Animator { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        Animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -49,42 +52,42 @@ public class Player : MonoBehaviour
             rb.AddForce(new Vector3(0, 200, 0));
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
+        if (Animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                animator.SetTrigger("punch");
+                StartMove(new Punch(this));
             }
 
             if (Input.GetKeyDown(KeyCode.K))
             {
-                animator.SetTrigger("low_kick");
+                Animator.SetTrigger("low_kick");
             }
 
             if (Input.GetKeyDown(KeyCode.I))
             {
-                animator.SetTrigger("high_kick");
+                Animator.SetTrigger("high_kick");
             }
 
             if (Input.GetKey(KeyCode.O))
             {
-                animator.SetBool("high_block", true);
+                Animator.SetBool("high_block", true);
             }
 
             if (Input.GetKey(KeyCode.L))
             {
-                animator.SetBool("low_block", true);
+                Animator.SetBool("low_block", true);
             }
         }
 
         if (!Input.GetKey(KeyCode.O))
         {
-            animator.SetBool("high_block", false);
+            Animator.SetBool("high_block", false);
         }
 
         if (!Input.GetKey(KeyCode.L))
         {
-            animator.SetBool("low_block", false);
+            Animator.SetBool("low_block", false);
         }
     }
 
@@ -93,24 +96,24 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case State.NEUTRAL:
-                animator.SetBool("back_walk", false);
-                animator.SetBool("forward_walk", false);
-                animator.SetBool("midair", false);
+                Animator.SetBool("back_walk", false);
+                Animator.SetBool("forward_walk", false);
+                Animator.SetBool("midair", false);
                 break;
             case State.MIDAIR:
-                animator.SetBool("back_walk", false);
-                animator.SetBool("forward_walk", false);
-                animator.SetBool("midair", true);
+                Animator.SetBool("back_walk", false);
+                Animator.SetBool("forward_walk", false);
+                Animator.SetBool("midair", true);
                 break;
             case State.BACK_WALK:
-                animator.SetBool("back_walk", true);
-                animator.SetBool("forward_walk", false);
-                animator.SetBool("midair", false);
+                Animator.SetBool("back_walk", true);
+                Animator.SetBool("forward_walk", false);
+                Animator.SetBool("midair", false);
                 break;
             case State.FORWARD_WALK:
-                animator.SetBool("back_walk", false);
-                animator.SetBool("forward_walk", true);
-                animator.SetBool("midair", false);
+                Animator.SetBool("back_walk", false);
+                Animator.SetBool("forward_walk", true);
+                Animator.SetBool("midair", false);
                 break;
         }
     }
@@ -131,22 +134,52 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void activateHitbox(string hitboxName)
+    public void onAnimationEvent(string eventName)
     {
-        setHitboxState(hitboxName, true);
-    }
-
-    public void deactivateHitbox(string hitboxName)
-    {
-        setHitboxState(hitboxName, false);
+        currentMove?.OnAnimationEvent(eventName);
+        if (currentMove == null)
+        {
+            Debug.LogError($"Received animation event with no current move: {eventName}");
+        }
     }
     
-    private void setHitboxState(string hitboxName, bool state)
+    public void setHitboxState(HitboxPath hitboxPath, bool state)
     {
-        Hitbox hitbox = transform.Find(hitboxName)?.gameObject?.GetComponent<Hitbox>();
-        if (hitbox != null)
+        Hitbox hitbox = transform.Find(hitboxPath.Path)?.gameObject?.GetComponent<Hitbox>();
+        if (hitbox == null)
+        {
+            Debug.LogError($"Unknown hitbox path: {hitboxPath}");
+        }
+        else
         {
             hitbox.Active = state;
+        }
+    }
+
+    public void StartMove(Move move)
+    {
+        if (currentMove == null)
+        {
+            // TODO: Need to check if transition is valid for current animator state
+            currentMove = move;
+            move.StartAnimation();
+        }
+        else
+        {
+            Debug.LogError($"Attempted to start move with another move in progress. " +
+                $"Current: {currentMove} Attempted: {move}");
+        }
+    }
+    
+    public void EndMove()
+    {
+        if (currentMove != null)
+        {
+            currentMove = null;
+        }
+        else
+        {
+            Debug.LogError("Attempted to end move with no move in progress");
         }
     }
 
@@ -157,4 +190,30 @@ public class Player : MonoBehaviour
         BACK_WALK,
         FORWARD_WALK
     };
+
+    public class HitboxPath
+    {
+        public string Path { get; private set; }
+
+        private HitboxPath(string path)
+        {
+            Path = path;
+        }
+
+        public static HitboxPath UPPER_BODY = new HitboxPath("Hitboxes/UpperBody");
+        public static HitboxPath HEAD = new HitboxPath("Hitboxes/UpperBody/Head");
+        public static HitboxPath LEFT_UPPER_ARM = new HitboxPath("Hitboxes/UpperBody/LeftArm/UpperLeftArm");
+        public static HitboxPath LEFT_LOWER_ARM = new HitboxPath("Hitboxes/UpperBody/LeftArm/UpperLeftArm/LowerLeftArm");
+        public static HitboxPath LEFT_HAND = new HitboxPath("Hitboxes/UpperBody/LeftArm/UpperLeftArm/LowerLeftArm/LeftHand");
+        public static HitboxPath RIGHT_UPPER_ARM = new HitboxPath("Hitboxes/UpperBody/RightArm/UpperRightArm");
+        public static HitboxPath RIGHT_LOWER_ARM = new HitboxPath("Hitboxes/UpperBody/RightArm/UpperRightArm/LowerRightArm");
+        public static HitboxPath RIGHT_HAND = new HitboxPath("Hitboxes/UpperBody/RightArm/UpperRightArm/LowerRightArm/RightHand");
+        public static HitboxPath LOWER_BODY = new HitboxPath("Hitboxes/LowerBody");
+        public static HitboxPath LEFT_UPPER_LEG = new HitboxPath("Hitboxes/LowerBody/LeftLeg/UpperLeftLeg");
+        public static HitboxPath LEFT_LOWER_LEG = new HitboxPath("Hitboxes/LowerBody/LeftLeg/UpperLeftLeg/LowerLeftLeg");
+        public static HitboxPath LEFT_FOOT = new HitboxPath("Hitboxes/LowerBody/LeftLeg/UpperLeftLeg/LowerLeftLeg/LeftFoot");
+        public static HitboxPath RIGHT_UPPER_LEG = new HitboxPath("Hitboxes/LowerBody/RightLeg/UpperRightLeg");
+        public static HitboxPath RIGHT_LOWER_LEG = new HitboxPath("Hitboxes/LowerBody/RightLeg/UpperRightLeg/LowerRightLeg");
+        public static HitboxPath RIGHT_FOOT = new HitboxPath("Hitboxes/LowerBody/RightLeg/UpperRightLeg/LowerRightLeg/RightFoot");
+    }
 }
