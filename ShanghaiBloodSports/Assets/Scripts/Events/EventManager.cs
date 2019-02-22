@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Events
 {
-    class EventManager
+    public class EventManager : MonoBehaviour
     {
         private HashSet<EventHandler> handlers = new HashSet<EventHandler>();
 
@@ -38,8 +39,41 @@ namespace Assets.Scripts.Events
 
             e.Execute();
         }
+        
+        public void raiseEvent(HitEvent e)
+        {
+            foreach (var handler in handlers)
+            {
+                if (!e.Source.Contains(handler))
+                {
+                    handler.onEvent<HitEvent, HitEventArgs>(e);
+                }
+            }
 
-        // TODO: Add raiseEvent overloads for events that need additional handling
-        // e.g. Hit event -> Damage event
+            HitEventArgs result = e.Execute();
+            if (result != null)
+            {
+                raiseEvent(new DamageEvent(
+                    new DamageEventArgs(result.target, result.move.Damage),
+                    new EventSource(e, e.Source)));
+            }
+        }
+
+        public void raiseEvent(DamageEvent e)
+        {
+            foreach (var handler in handlers)
+            {
+                if (!e.Source.Contains(handler))
+                {
+                    handler.onEvent<DamageEvent, DamageEventArgs>(e);
+                }
+            }
+
+            DamageEventArgs result = e.Execute();
+            if (result != null)
+            {
+                result.target.Health -= result.damage;
+            }
+        }
     }
 }
