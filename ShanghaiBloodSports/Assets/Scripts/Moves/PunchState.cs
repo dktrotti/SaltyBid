@@ -7,6 +7,14 @@ using UnityEngine;
 
 namespace Assets.Scripts.Moves
 {
+    public class PunchState : MoveState
+    {
+        protected override Move GetMove(Player player)
+        {
+            return new Punch(player);
+        }
+    }
+
     public class Punch : Move
     {
         public override string Name => "Punch";
@@ -18,13 +26,14 @@ namespace Assets.Scripts.Moves
         public override bool Blockable => true;
         public override bool Parryable => true;
 
-        public Punch(Player player) : base(player) { }
-
-        public override void StartAnimation()
+        public Punch(Player player) : base(player)
         {
             animationEvents += handleAnimationEvent;
+        }
 
-            player.Animator.SetTrigger("punch");
+        public static void StartAnimation(Animator animator)
+        {
+            animator.SetTrigger("punch");
         }
 
         private void handleAnimationEvent(object sender, AnimationEventArgs e)

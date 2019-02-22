@@ -9,8 +9,24 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private State state = State.NEUTRAL;
     private bool grounded = false;
-    private Move currentMove = null;
 
+    private Move currentMove;
+    public Move CurrentMove {
+        get {
+            return currentMove;
+        }
+        set {
+            if (currentMove == null ^ value == null)
+            {
+                currentMove = value;
+            }
+            else
+            {
+                Debug.LogError($"Unexpected change to CurrentMove " +
+                    $"OldVal: {currentMove} NewVal: {value}");
+            }
+        }
+    }
     public Animator Animator { get; private set; }
 
     // Start is called before the first frame update
@@ -56,7 +72,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.J))
             {
-                StartMove(new Punch(this));
+                Punch.StartAnimation(Animator);
             }
 
             if (Input.GetKeyDown(KeyCode.K))
@@ -153,33 +169,6 @@ public class Player : MonoBehaviour
         else
         {
             hitbox.Active = state;
-        }
-    }
-
-    public void StartMove(Move move)
-    {
-        if (currentMove == null)
-        {
-            // TODO: Need to check if transition is valid for current animator state
-            currentMove = move;
-            move.StartAnimation();
-        }
-        else
-        {
-            Debug.LogError($"Attempted to start move with another move in progress. " +
-                $"Current: {currentMove} Attempted: {move}");
-        }
-    }
-    
-    public void EndMove()
-    {
-        if (currentMove != null)
-        {
-            currentMove = null;
-        }
-        else
-        {
-            Debug.LogError("Attempted to end move with no move in progress");
         }
     }
 

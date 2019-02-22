@@ -19,7 +19,6 @@ namespace Assets.Scripts.Moves
         public abstract TimeSpan StunDuration { get; }
         public abstract bool Blockable { get; }
         public abstract bool Parryable { get; }
-        public abstract void StartAnimation();
 
         protected readonly Player player;
 
