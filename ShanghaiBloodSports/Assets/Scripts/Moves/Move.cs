@@ -19,27 +19,42 @@ namespace Assets.Scripts.Moves
         public abstract TimeSpan StunDuration { get; }
         public abstract bool Blockable { get; }
         public abstract bool Parryable { get; }
+        protected abstract void handleAnimationEvent(object sender, AnimationEventArgs e);
 
         protected readonly Player player;
 
         public Move(Player player)
         {
             this.player = player;
+            animationEvents += handleAnimationEvent;
         }
 
         public void OnAnimationEvent(string eventName)
         {
-            animationEvents(this, new AnimationEventArgs(eventName));
+            AnimationEventType type;
+            switch (eventName)
+            {
+                case "hitboxActivate":
+                    type = AnimationEventType.HITBOX_ACTIVATE;
+                    break;
+                case "hitboxDeactivate":
+                    type = AnimationEventType.HITBOX_DEACTIVATE;
+                    break;
+                default:
+                    Debug.LogError($"Unknown animation event: {eventName}");
+                    return;
+            }
+            animationEvents(this, new AnimationEventArgs(type));
         }
     }
 
     public class AnimationEventArgs : EventArgs
     {
-        public string EventName { get; private set; }
+        public AnimationEventType Type { get; }
 
-        public AnimationEventArgs(string eventName)
+        public AnimationEventArgs(AnimationEventType type)
         {
-            EventName = eventName;
+            Type = type;
         }
     }
 
@@ -48,5 +63,11 @@ namespace Assets.Scripts.Moves
         HIGH,
         MID,
         LOW
+    }
+
+    public enum AnimationEventType
+    {
+        HITBOX_ACTIVATE,
+        HITBOX_DEACTIVATE
     }
 }

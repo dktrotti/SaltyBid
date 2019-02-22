@@ -7,30 +7,30 @@ using UnityEngine;
 
 namespace Assets.Scripts.Moves
 {
-    public class PunchState : MoveState
+    public class HighKickState : MoveState
     {
         protected override Move GetMove(Player player)
         {
-            return new Punch(player);
+            return new HighKick(player);
         }
     }
 
-    public class Punch : Move
+    public class HighKick : Move
     {
-        public override string Name => "Punch";
-        public override int Damage => 10;
-        public override int GuardDamage => 10;
+        public override string Name => "High Kick";
+        public override int Damage => 20;
+        public override int GuardDamage => 15;
         public override MoveType Type => MoveType.HIGH;
         public override int MeterCost => 0;
-        public override TimeSpan StunDuration => TimeSpan.Zero;
+        public override TimeSpan StunDuration => TimeSpan.FromMilliseconds(100);
         public override bool Blockable => true;
         public override bool Parryable => true;
 
-        public Punch(Player player) : base(player) { }
+        public HighKick(Player player) : base(player) { }
 
         public static void StartAnimation(Animator animator)
         {
-            animator.SetTrigger("punch");
+            animator.SetTrigger("high_kick");
         }
 
         protected override void handleAnimationEvent(object sender, AnimationEventArgs e)
@@ -38,10 +38,10 @@ namespace Assets.Scripts.Moves
             switch (e.Type)
             {
                 case AnimationEventType.HITBOX_ACTIVATE:
-                    player.setHitboxState(Player.HitboxPath.RIGHT_HAND, true);
+                    player.setHitboxState(Player.HitboxPath.RIGHT_FOOT, true);
                     break;
                 case AnimationEventType.HITBOX_DEACTIVATE:
-                    player.setHitboxState(Player.HitboxPath.RIGHT_HAND, false);
+                    player.setHitboxState(Player.HitboxPath.RIGHT_FOOT, false);
                     break;
             }
         }

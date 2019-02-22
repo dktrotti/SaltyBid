@@ -77,12 +77,12 @@ public class Player : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.K))
             {
-                Animator.SetTrigger("low_kick");
+                LowKick.StartAnimation(Animator);
             }
 
             if (Input.GetKeyDown(KeyCode.I))
             {
-                Animator.SetTrigger("high_kick");
+                HighKick.StartAnimation(Animator);
             }
 
             if (Input.GetKey(KeyCode.O))
