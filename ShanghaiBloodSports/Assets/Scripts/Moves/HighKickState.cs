@@ -9,9 +9,9 @@ namespace Assets.Scripts.Moves
 {
     public class HighKickState : MoveState
     {
-        protected override Move GetMove(Player player)
+        protected override Move GetMove(Character character)
         {
-            return new HighKick(player);
+            return new HighKick(character);
         }
     }
 
@@ -26,7 +26,7 @@ namespace Assets.Scripts.Moves
         public override bool Blockable => true;
         public override bool Parryable => true;
 
-        public HighKick(Player player) : base(player) { }
+        public HighKick(Character character) : base(character) { }
 
         public static void StartAnimation(Animator animator)
         {
@@ -38,10 +38,10 @@ namespace Assets.Scripts.Moves
             switch (e.Type)
             {
                 case AnimationEventType.HITBOX_ACTIVATE:
-                    player.setHitboxState(Player.HitboxPath.RIGHT_FOOT, true);
+                    character.setHitboxState(Character.HitboxPath.RIGHT_FOOT, true);
                     break;
                 case AnimationEventType.HITBOX_DEACTIVATE:
-                    player.setHitboxState(Player.HitboxPath.RIGHT_FOOT, false);
+                    character.setHitboxState(Character.HitboxPath.RIGHT_FOOT, false);
                     break;
             }
         }

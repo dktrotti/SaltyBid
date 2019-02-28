@@ -4,10 +4,10 @@ namespace Assets.Scripts.Events
 {
     public class HitEventArgs : EventArgs {
         public readonly Move move;
-        public readonly Player source;
+        public readonly Character source;
         public readonly Character target;
 
-        public HitEventArgs(Move move, Player source, Character target)
+        public HitEventArgs(Move move, Character source, Character target)
         {
             this.move = move;
             this.source = source;

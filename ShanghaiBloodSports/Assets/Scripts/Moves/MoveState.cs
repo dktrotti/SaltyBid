@@ -6,20 +6,20 @@ namespace Assets.Scripts.Moves
 {
     public abstract class MoveState : StateMachineBehaviour
     {
-        protected abstract Move GetMove(Player player);
+        protected abstract Move GetMove(Character character);
 
         // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Player player = animator.GetComponentInParent<Player>();
-            player.CurrentMove = GetMove(player);
+            Character character = animator.GetComponentInParent<Character>();
+            character.CurrentMove = GetMove(character);
         }
 
         // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Player player = animator.GetComponentInParent<Player>();
-            player.CurrentMove = null;
+            Character character = animator.GetComponentInParent<Character>();
+            character.CurrentMove = null;
         }
     }
 }

@@ -21,11 +21,11 @@ namespace Assets.Scripts.Moves
         public abstract bool Parryable { get; }
         protected abstract void handleAnimationEvent(object sender, AnimationEventArgs e);
 
-        protected readonly Player player;
+        protected readonly Character character;
 
-        public Move(Player player)
+        public Move(Character character)
         {
-            this.player = player;
+            this.character = character;
             animationEvents += handleAnimationEvent;
         }
 

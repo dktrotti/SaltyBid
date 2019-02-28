@@ -40,12 +40,12 @@ public class Hitbox : MonoBehaviour
             // This allows the same move to hit the opponent multiple times in different hitboxes
             Active = false;
 
-            Player player = GetComponentInParent<Player>();
+            Character character = GetComponentInParent<Character>();
             Character target = other.GetComponentInParent<Character>();
             eventManager.raiseEvent(new HitEvent(
                 new HitEventArgs(
-                    player.CurrentMove,
-                    player,
+                    character.CurrentMove,
+                    character,
                     target),
                 new EventSource(this)));
         }
