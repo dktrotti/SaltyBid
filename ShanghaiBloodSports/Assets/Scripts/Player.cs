@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private State state = State.NEUTRAL;
     private bool grounded = false;
+    private MockInputBuffer inputBuffer;
 
     private Move currentMove;
     public Move CurrentMove {
@@ -34,25 +35,25 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
+        inputBuffer = GetComponent<MockInputBuffer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        var input = Input.GetAxis("Horizontal");
-        var movement = input * speed;
-
         if (!grounded)
         {
             state = State.MIDAIR;
         }
-        else if (input < 0)
+        else if (inputBuffer.Peek(KeyCode.A))
         {
             state = State.BACK_WALK;
+            rb.velocity = new Vector3(-1 * speed, rb.velocity.y, 0);
         }
-        else if (input > 0)
+        else if (inputBuffer.Peek(KeyCode.D))
         {
             state = State.FORWARD_WALK;
+            rb.velocity = new Vector3(speed, rb.velocity.y, 0);
         }
         else
         {
@@ -61,47 +62,45 @@ public class Player : MonoBehaviour
 
         UpdateAnimator();
 
-        rb.velocity = new Vector3(movement, rb.velocity.y, 0);
-
-        if (Input.GetKeyDown(KeyCode.Space) && state != State.MIDAIR)
+        if (inputBuffer.Match(KeyCode.Space) && state != State.MIDAIR)
         {
             rb.AddForce(new Vector3(0, 200, 0));
         }
 
         if (Animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
         {
-            if (Input.GetKeyDown(KeyCode.J))
+            if (inputBuffer.Match(KeyCode.J))
             {
                 Punch.StartAnimation(Animator);
             }
 
-            if (Input.GetKeyDown(KeyCode.K))
+            if (inputBuffer.Match(KeyCode.K))
             {
                 LowKick.StartAnimation(Animator);
             }
 
-            if (Input.GetKeyDown(KeyCode.I))
+            if (inputBuffer.Match(KeyCode.I))
             {
                 HighKick.StartAnimation(Animator);
             }
 
-            if (Input.GetKey(KeyCode.O))
+            if (inputBuffer.Peek(KeyCode.O))
             {
                 Animator.SetBool("high_block", true);
             }
 
-            if (Input.GetKey(KeyCode.L))
+            if (inputBuffer.Peek(KeyCode.L))
             {
                 Animator.SetBool("low_block", true);
             }
         }
 
-        if (!Input.GetKey(KeyCode.O))
+        if (!inputBuffer.Peek(KeyCode.O))
         {
             Animator.SetBool("high_block", false);
         }
 
-        if (!Input.GetKey(KeyCode.L))
+        if (!inputBuffer.Peek(KeyCode.L))
         {
             Animator.SetBool("low_block", false);
         }
