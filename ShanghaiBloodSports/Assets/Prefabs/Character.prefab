@@ -745,7 +745,6 @@ GameObject:
   - component: {fileID: 7931033671868165058}
   - component: {fileID: 7257004311886182847}
   - component: {fileID: 663120146686638618}
-  - component: {fileID: 3762899275449563467}
   m_Layer: 8
   m_Name: Character
   m_TagString: Untagged
@@ -876,18 +875,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b68319617938e0d41a0f1ead7cf92a04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3762899275449563467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2609417324641571755}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f9900f5d2a6861418b13db1a2112963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2609417324920767474
@@ -1135,6 +1122,7 @@ GameObject:
   - component: {fileID: 2609417325593938765}
   - component: {fileID: 2609417325593938755}
   - component: {fileID: 2609417325593938764}
+  - component: {fileID: 7421257579450133534}
   m_Layer: 5
   m_Name: HealthIndicator
   m_TagString: Untagged
@@ -1217,6 +1205,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &7421257579450133534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2609417325593938766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f9900f5d2a6861418b13db1a2112963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2899079498827910546
 GameObject:
   m_ObjectHideFlags: 0
