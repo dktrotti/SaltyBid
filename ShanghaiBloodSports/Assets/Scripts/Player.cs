@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
 
         if (inputBuffer.Match(KeyCode.Space) && state != State.MIDAIR)
         {
-            rb.AddForce(new Vector3(0, 200, 0));
+            rb.AddForce(new Vector3(0, 300, 0));
         }
 
         if (Animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
