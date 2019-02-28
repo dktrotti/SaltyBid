@@ -5,24 +5,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    private TextMesh healthIndicator;
-    private double health = 100;
-    private double guard = 100;
-
     public Character Opponent { get; private set; }
 
-    public double Health {
-        get => health;
-        set {
-            health = value;
-            healthIndicator.text = $"Health: {health}\nGuard: {guard}";
-        }
-    }
+    public double Health { get; set; } = 100;
+    public double Guard { get; set; } = 100;
 
     // Start is called before the first frame update
     void Start()
     {
-        healthIndicator = transform.GetChild(0).GetComponent<TextMesh>();
         Opponent = FindObjectsOfType<Character>().Where(c => c != this).Single();
     }
 
