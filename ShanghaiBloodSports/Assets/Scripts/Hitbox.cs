@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Events;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ using UnityEngine;
 public class Hitbox : MonoBehaviour
 {
     public bool Active { get; set; } = false;
+    private EventManager eventManager;
 
     private Character owner {
         get {
@@ -16,7 +18,11 @@ public class Hitbox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        eventManager = GameObject.Find("FightScene")?.GetComponent<EventManager>();
+        if (eventManager == null)
+        {
+            Debug.LogError("EventManager not found");
+        }
     }
 
     // Update is called once per frame
@@ -34,8 +40,14 @@ public class Hitbox : MonoBehaviour
             // This allows the same move to hit the opponent multiple times in different hitboxes
             Active = false;
 
-            owner.Opponent.Health -= 10;
-            // TODO: Emit hit event with owner's current move
+            Character character = GetComponentInParent<Character>();
+            Character target = other.GetComponentInParent<Character>();
+            eventManager.raiseEvent(new HitEvent(
+                new HitEventArgs(
+                    character.CurrentMove,
+                    character,
+                    target),
+                new EventSource(this)));
         }
     }
 }
