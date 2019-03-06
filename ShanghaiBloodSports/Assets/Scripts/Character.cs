@@ -22,6 +22,8 @@ public class Character : MonoBehaviour
             return currentMove;
         }
         set {
+            // Only allow the move to be set if no move is in progress, and only allow the move to
+            // be cleared if a move is in progress
             if (currentMove == null ^ value == null)
             {
                 currentMove = value;
