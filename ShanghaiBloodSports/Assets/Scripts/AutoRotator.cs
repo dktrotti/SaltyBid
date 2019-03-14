@@ -5,26 +5,23 @@ using UnityEngine;
 [RequireComponent(typeof(Character))]
 public class AutoRotator : MonoBehaviour
 {
-    private static readonly int FACE_RIGHT = 180;
-    private static readonly int FACE_LEFT = 0;
+    private bool prevState;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        prevState = ToLeftOfOpponent();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ToLeftOfOpponent())
+        bool newState = ToLeftOfOpponent();
+        if (newState != prevState)
         {
-            transform.eulerAngles = new Vector3(transform.rotation.x, FACE_LEFT);
+            transform.Rotate(0, 180, 0);
         }
-        else
-        {
-            transform.eulerAngles = new Vector3(transform.rotation.x, FACE_RIGHT);
-        }
+        prevState = newState;
     }
 
     private bool ToLeftOfOpponent()
