@@ -21,6 +21,12 @@ namespace Assets.Scripts.Events
             handlers.Remove(handler);
         }
 
+        void Update()
+        {
+            raiseEvent<UpdateEvent, UpdateEventArgs>(new UpdateEvent(
+                new UpdateEventArgs(), new EventSource(this)));
+        }
+
         /// <summary>
         /// Raises the specified event with no special handling. Events that require special
         /// handling will have a non generic overload, which should always be preferred if available.
