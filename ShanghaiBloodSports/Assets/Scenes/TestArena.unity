@@ -692,19 +692,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2609417324641571755, guid: b049de0ed9494334c9222c97e396c52f,
         type: 3}
       propertyPath: m_Name
       value: SampleFighter
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571755, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_TagString
-      value: Fighter
       objectReference: {fileID: 0}
     - target: {fileID: 4764347267557237663, guid: b049de0ed9494334c9222c97e396c52f,
         type: 3}
@@ -1407,96 +1398,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Hitbox
       objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571754, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571754, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_UseFullKinematicContacts
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571754, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_Simulated
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324454452291, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324920767472, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417325251702226, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324313475445, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324959821799, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5778798434838905374, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4863438535616877935, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 306481199009166369, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417323705179973, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417323732406474, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7005639770024571944, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9223061132402949897, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8163249159976892790, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417323806925140, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324544396879, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b049de0ed9494334c9222c97e396c52f, type: 3}
 --- !u!1001 &1110043086
@@ -1506,19 +1407,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2609417324641571755, guid: b049de0ed9494334c9222c97e396c52f,
         type: 3}
       propertyPath: m_Name
       value: Dummy
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571755, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_TagString
-      value: Fighter
       objectReference: {fileID: 0}
     - target: {fileID: 4764347267557237663, guid: b049de0ed9494334c9222c97e396c52f,
         type: 3}
@@ -1584,16 +1476,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571754, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_BodyType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2609417324641571754, guid: b049de0ed9494334c9222c97e396c52f,
-        type: 3}
-      propertyPath: m_UseFullKinematicContacts
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b049de0ed9494334c9222c97e396c52f, type: 3}
