@@ -86,19 +86,8 @@ public class Character : MonoBehaviour
         {
             grounded = true;
         }
-        else if (col.gameObject.tag.Equals("Fighter"))
-        {
-            rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
-        }
     }
 
-    private void OnCollisionStay2D(Collision2D col)
-    {
-        if (col.gameObject.tag.Equals("Fighter"))
-        {
-            rigidBody.velocity = new Vector3(0, rigidBody.velocity.y, 0);
-        }
-    }
 
     private void OnCollisionExit2D(Collision2D col)
     {
