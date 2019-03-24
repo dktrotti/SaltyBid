@@ -9,16 +9,22 @@ namespace Assets.Scripts.Events
 {
     public class EventManager : MonoBehaviour
     {
-        private HashSet<EventHandler> handlers = new HashSet<EventHandler>();
+        private HashSet<GameEventHandler> handlers = new HashSet<GameEventHandler>();
 
-        public void AddHandler(EventHandler handler)
+        public void AddHandler(GameEventHandler handler)
         {
             handlers.Add(handler);
         }
 
-        public void RemoveHandler(EventHandler handler)
+        public void RemoveHandler(GameEventHandler handler)
         {
             handlers.Remove(handler);
+        }
+
+        void Update()
+        {
+            raiseEvent<UpdateEvent, UpdateEventArgs>(new UpdateEvent(
+                new UpdateEventArgs(), new EventSource(this)));
         }
 
         /// <summary>
@@ -26,7 +32,7 @@ namespace Assets.Scripts.Events
         /// handling will have a non generic overload, which should always be preferred if available.
         /// </summary>
         public void raiseEvent<EVENT, ARGS>(EVENT e)
-            where EVENT : Event<ARGS>
+            where EVENT : GameEvent<ARGS>
             where ARGS : EventArgs
         {
             foreach (var handler in handlers)

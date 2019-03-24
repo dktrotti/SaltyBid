@@ -2,7 +2,7 @@
 {
     public class GrappleEventArgs : EventArgs { }
 
-    public class GrappleEvent : Event<GrappleEventArgs>
+    public class GrappleEvent : GameEvent<GrappleEventArgs>
     {
         public GrappleEvent(GrappleEventArgs args, EventSource source) : base(args, source)
         {

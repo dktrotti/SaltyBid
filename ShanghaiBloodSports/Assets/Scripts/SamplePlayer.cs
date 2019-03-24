@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Character))]
 public class SamplePlayer : MonoBehaviour
 {
     private MockInputBuffer inputBuffer;
@@ -13,6 +14,10 @@ public class SamplePlayer : MonoBehaviour
     {
         inputBuffer = GetComponent<MockInputBuffer>();
         animator = GetComponentInChildren<Animator>();
+        Character character = GetComponent<Character>();
+        character.EquipTrinket(new PunchTrinket(character, animator, inputBuffer));
+        character.EquipTrinket(new LowKickTrinket(character, animator, inputBuffer));
+        character.EquipTrinket(new HighKickTrinket(character, animator, inputBuffer));
     }
 
     // Update is called once per frame
@@ -20,21 +25,6 @@ public class SamplePlayer : MonoBehaviour
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
         {
-            if (inputBuffer.Match(KeyCode.J))
-            {
-                Punch.StartAnimation(animator);
-            }
-
-            if (inputBuffer.Match(KeyCode.K))
-            {
-                LowKick.StartAnimation(animator);
-            }
-
-            if (inputBuffer.Match(KeyCode.I))
-            {
-                HighKick.StartAnimation(animator);
-            }
-
             if (inputBuffer.Peek(KeyCode.O))
             {
                 animator.SetBool("high_block", true);

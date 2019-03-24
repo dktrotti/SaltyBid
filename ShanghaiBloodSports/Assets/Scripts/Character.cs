@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Moves;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Moves;
+using Assets.Scripts.Trinkets.BaseTrinkets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,8 @@ public class Character : MonoBehaviour
     private Rigidbody2D rigidBody;
     private bool grounded = false;
     private MockInputBuffer inputBuffer;
+    private EventManager eventManager;
+    private List<TrinketBase> trinkets = new List<TrinketBase>();
 
     public Character Opponent { get; private set; }
     public State CurrentState { get; private set; } = State.NEUTRAL;
@@ -42,6 +46,10 @@ public class Character : MonoBehaviour
         Opponent = FindObjectsOfType<Character>().Where(c => c != this).Single();
         inputBuffer = GetComponent<MockInputBuffer>();
         rigidBody = GetComponent<Rigidbody2D>();
+        // TODO: Turn this into a singleton? Or maybe add a way to get it from the scene?
+        eventManager = GameObject.Find("FightScene")?.GetComponent<EventManager>();
+
+        getDefaultTrinkets().ForEach(t => EquipTrinket(t));
     }
 
     // Update is called once per frame
@@ -99,6 +107,32 @@ public class Character : MonoBehaviour
         {
             hitbox.Active = state;
         }
+    }
+
+    public void setDead()
+    {
+        transform.Rotate(0, 0, 90);
+    }
+
+    public void EquipTrinket(TrinketBase trinket)
+    {
+        eventManager.AddHandler(trinket.EventHandler);
+        trinket.onEquip(this);
+        trinkets.Add(trinket);
+    }
+
+    public void UnequipTrinket(TrinketBase trinket)
+    {
+        eventManager.RemoveHandler(trinket.EventHandler);
+        trinket.onUnequip();
+        trinkets.Remove(trinket);
+    }
+
+    public static List<TrinketBase> getDefaultTrinkets()
+    {
+        return new List<TrinketBase>() {
+            new DeathTrinket()
+        };
     }
 
     public enum State

@@ -2,7 +2,7 @@
 {
     public class JumpEventArgs : EventArgs { }
 
-    public class JumpEvent : Event<JumpEventArgs>
+    public class JumpEvent : GameEvent<JumpEventArgs>
     {
         public JumpEvent(JumpEventArgs args, EventSource source) : base(args, source)
         {

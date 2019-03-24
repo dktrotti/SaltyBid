@@ -15,7 +15,7 @@ namespace Assets.Scripts.Events
         }
     }
 
-    public class HitEvent : Event<HitEventArgs>
+    public class HitEvent : GameEvent<HitEventArgs>
     {
         public HitEvent(HitEventArgs args, EventSource source) : base(args, source)
         {

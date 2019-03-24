@@ -11,7 +11,7 @@
         }
     }
 
-    public class DamageEvent : Event<DamageEventArgs>
+    public class DamageEvent : GameEvent<DamageEventArgs>
     {
         public DamageEvent(DamageEventArgs args, EventSource source) : base(args, source)
         {

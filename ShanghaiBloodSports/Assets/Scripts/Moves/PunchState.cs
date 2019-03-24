@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assets.Scripts.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Moves
@@ -28,11 +29,6 @@ namespace Assets.Scripts.Moves
 
         public Punch(Character character) : base(character) { }
 
-        public static void StartAnimation(Animator animator)
-        {
-            animator.SetTrigger("punch");
-        }
-
         protected override void handleAnimationEvent(object sender, AnimationEventArgs e)
         {
             switch (e.Type)
@@ -43,6 +39,33 @@ namespace Assets.Scripts.Moves
                 case AnimationEventType.HITBOX_DEACTIVATE:
                     character.setHitboxState(Character.HitboxPath.RIGHT_HAND, false);
                     break;
+            }
+        }
+    }
+
+    public class PunchTrinket : MoveTrinket
+    {
+        private readonly Animator animator;
+        private readonly MockInputBuffer inputBuffer;
+
+        public override string Name => "Fist of the North Star";
+        public override string Description => "Omae wa mou shindeiru";
+        public override Sprite Sprite => null;
+
+        public PunchTrinket(
+            Character owner,
+            Animator animator,
+            MockInputBuffer inputBuffer) : base(owner)
+        {
+            this.animator = animator;
+            this.inputBuffer = inputBuffer;
+        }
+
+        public override void OnUpdate()
+        {
+            if (inputBuffer.Match(KeyCode.J))
+            {
+                animator.SetTrigger("punch");
             }
         }
     }

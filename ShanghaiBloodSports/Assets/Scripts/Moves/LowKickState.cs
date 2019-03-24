@@ -28,11 +28,6 @@ namespace Assets.Scripts.Moves
 
         public LowKick(Character character) : base(character) { }
 
-        public static void StartAnimation(Animator animator)
-        {
-            animator.SetTrigger("low_kick");
-        }
-
         protected override void handleAnimationEvent(object sender, AnimationEventArgs e)
         {
             switch (e.Type)
@@ -43,6 +38,33 @@ namespace Assets.Scripts.Moves
                 case AnimationEventType.HITBOX_DEACTIVATE:
                     character.setHitboxState(Character.HitboxPath.RIGHT_FOOT, false);
                     break;
+            }
+        }
+    }
+
+    public class LowKickTrinket : MoveTrinket
+    {
+        private readonly Animator animator;
+        private readonly MockInputBuffer inputBuffer;
+
+        public override string Name => "Shin Splitter";
+        public override string Description => "Stop it! That kind of hurts!";
+        public override Sprite Sprite => null;
+
+        public LowKickTrinket(
+            Character owner,
+            Animator animator,
+            MockInputBuffer inputBuffer) : base(owner)
+        {
+            this.animator = animator;
+            this.inputBuffer = inputBuffer;
+        }
+
+        public override void OnUpdate()
+        {
+            if (inputBuffer.Match(KeyCode.K))
+            {
+                animator.SetTrigger("low_kick");
             }
         }
     }

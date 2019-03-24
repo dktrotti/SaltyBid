@@ -2,7 +2,7 @@
 {
     public class ParryEventArgs : EventArgs { }
 
-    public class ParryEvent : Event<ParryEventArgs>
+    public class ParryEvent : GameEvent<ParryEventArgs>
     {
         public ParryEvent(ParryEventArgs args, EventSource source) : base(args, source)
         {

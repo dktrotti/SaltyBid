@@ -2,7 +2,7 @@
 {
     public class GuardSpentEventArgs : EventArgs { }
 
-    public class GuardSpentEvent : Event<GuardSpentEventArgs>
+    public class GuardSpentEvent : GameEvent<GuardSpentEventArgs>
     {
         public GuardSpentEvent(GuardSpentEventArgs args, EventSource source) : base(args, source)
         {
