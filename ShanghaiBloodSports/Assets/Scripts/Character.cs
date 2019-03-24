@@ -88,7 +88,6 @@ public class Character : MonoBehaviour
         }
     }
 
-
     private void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag.Equals("Ground"))
