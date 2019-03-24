@@ -7,6 +7,7 @@ TagManager:
   - FightState
   - Ground
   - Hitbox
+  - Fighter
   layers:
   - Default
   - TransparentFX
