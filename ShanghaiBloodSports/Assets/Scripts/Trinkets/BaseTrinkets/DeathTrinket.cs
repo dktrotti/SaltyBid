@@ -16,7 +16,7 @@ namespace Assets.Scripts.Trinkets.BaseTrinkets
         public override string Name => "Frailty of Man";
         public override string Description => "People die when they are killed.";
         public override Sprite Sprite => null;
-        public override Events.EventHandler EventHandler => handler;
+        public override Events.GameEventHandler EventHandler => handler;
 
         public DeathTrinket()
         {
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Trinkets.BaseTrinkets
             this.owner = owner;
         }
 
-        private class Handler : Events.EventHandler
+        private class Handler : Events.GameEventHandler
         {
             private readonly DeathTrinket trinket;
 

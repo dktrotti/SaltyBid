@@ -2,7 +2,7 @@
 {
     public class StunEventArgs : EventArgs { }
 
-    public class StunEvent : Event<StunEventArgs>
+    public class StunEvent : GameEvent<StunEventArgs>
     {
         public StunEvent(StunEventArgs args, EventSource source) : base(args, source)
         {

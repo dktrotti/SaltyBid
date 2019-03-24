@@ -2,7 +2,7 @@
 {
     public class BlockEventArgs : EventArgs { }
 
-    public class BlockEvent : Event<BlockEventArgs>
+    public class BlockEvent : GameEvent<BlockEventArgs>
     {
         public BlockEvent(BlockEventArgs args, EventSource source) : base(args, source)
         {

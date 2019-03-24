@@ -10,10 +10,10 @@ namespace Assets.Scripts.Moves
 {
     public abstract class MoveTrinket : TrinketBase
     {
-        private readonly Events.EventHandler handler;
+        private readonly GameEventHandler handler;
         private readonly Character owner;
 
-        public override Events.EventHandler EventHandler => handler;
+        public override GameEventHandler EventHandler => handler;
 
         public MoveTrinket(Character owner)
         {
@@ -23,7 +23,7 @@ namespace Assets.Scripts.Moves
 
         public abstract void OnUpdate();
 
-        private class Handler : Events.EventHandler
+        private class Handler : GameEventHandler
         {
             private readonly MoveTrinket trinket;
 

@@ -2,7 +2,7 @@
 {
     public class UpdateEventArgs : EventArgs { }
 
-    public class UpdateEvent : Event<UpdateEventArgs>
+    public class UpdateEvent : GameEvent<UpdateEventArgs>
     {
         public UpdateEvent(UpdateEventArgs args, EventSource source) : base(args, source)
         {
