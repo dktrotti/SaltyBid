@@ -64,7 +64,7 @@ namespace Assets.Scripts.Input
     /// <summary>
     /// Represents the state of an InputDevice
     /// </summary>
-    class InputState
+    public class InputState
     {
         public IDictionary<Button, bool> buttons { get; }
         public JoystickPosition joystickPosition { get; }
