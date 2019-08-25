@@ -68,7 +68,7 @@ namespace Assets.Scripts.Input
                 }
                 return true;
             }
-            else if (previousInput.Matches(inputState))
+            else if (previousInput?.Matches(inputState) ?? false)
             {
                 return true;
             }
@@ -90,33 +90,32 @@ namespace Assets.Scripts.Input
     /// </summary>
     public class Input
     {
-        public IEnumerable<Button> buttons { get; }
-        public JoystickPosition? joystickPosition { get; }
+        public HashSet<Button> Buttons { get; }
+        public JoystickPosition? JoystickPosition { get; }
 
         public Input(Button button)
         {
-            this.buttons = new List<Button>() { button };
-            this.joystickPosition = null;
+            this.Buttons = new HashSet<Button>() { button };
+            this.JoystickPosition = null;
         }
 
         public Input(JoystickPosition joystickPosition)
         {
-            this.buttons = new List<Button>();
-            this.joystickPosition = joystickPosition;
+            this.Buttons = new HashSet<Button>();
+            this.JoystickPosition = joystickPosition;
         }
 
         public Input(IEnumerable<Button> buttons, JoystickPosition joystickPosition)
         {
-            this.buttons = buttons;
-            this.joystickPosition = joystickPosition;
+            this.Buttons = new HashSet<Button>(buttons);
+            this.JoystickPosition = joystickPosition;
         }
 
         public bool Matches(InputState inputState)
         {
-            bool joystickMatches = joystickPosition.HasValue
-                    && joystickPosition == inputState.joystickPosition;
-            bool buttonsMatch = inputState.buttons.All(
-                    pair => pair.Value == buttons.Contains(pair.Key));
+            bool joystickMatches = !JoystickPosition.HasValue
+                    || JoystickPosition == inputState.JoystickPosition;
+            bool buttonsMatch = Buttons.SetEquals(inputState.Buttons);
 
             return joystickMatches && buttonsMatch;
         }

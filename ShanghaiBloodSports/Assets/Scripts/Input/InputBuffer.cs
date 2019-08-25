@@ -13,9 +13,7 @@ namespace Assets.Scripts.Input
     /// </summary>
     public class InputBuffer : MonoBehaviour
     {
-        private const int BUFFER_LENGTH = 200;
-        
-        private readonly Queue<InputState> buffer = new Queue<InputState>();
+        private readonly InputBufferImpl buffer = new InputBufferImpl();
         private InputDevice device;
 
         void Start()
@@ -26,7 +24,40 @@ namespace Assets.Scripts.Input
 
         void Update()
         {
-            buffer.Enqueue(device.GetInputState());
+            buffer.AddInputState(device.GetInputState());
+        }
+
+        public bool Match(InputSequence sequence)
+        {
+            return buffer.Match(sequence);
+        }
+
+        public bool Peek(InputSequence sequence)
+        {
+            return buffer.Peek(sequence);
+        }
+    }
+
+    /// <summary>
+    /// This class was split from InputBuffer for testing. Unity was not working
+    /// with the test assembly, so the testable component has been separated from
+    /// the Unity component.
+    /// </summary>
+    public class InputBufferImpl
+    {
+        private const int BUFFER_LENGTH = 200;
+        
+        private readonly Queue<InputState> buffer = new Queue<InputState>();
+
+        /// <summary>
+        /// Adds an InputState to the buffer.
+        /// 
+        /// Note: This method is visible for testing purposes. It should not
+        /// be used externally.
+        /// </summary>
+        public void AddInputState(InputState input)
+        {
+            buffer.Enqueue(input);
             trimBuffer(BUFFER_LENGTH);
         }
 
@@ -34,7 +65,10 @@ namespace Assets.Scripts.Input
         {
             // TODO: Thread safety concerns?
             int index = find(sequence);
-            trimBuffer(index);
+            if (index != -1)
+            {
+                trimBuffer(index);
+            }
             return index != -1;
         }
 
@@ -44,8 +78,8 @@ namespace Assets.Scripts.Input
         }
 
         /// <summary>
-        /// Finds the index of the first InputState matching the provided
-        /// sequence, or -1 if not found.
+        /// Finds the index of the first (i.e most recent) InputState matching
+        /// the provided sequence, or -1 if not found.
         /// </summary>
         private int find(InputSequence sequence)
         {

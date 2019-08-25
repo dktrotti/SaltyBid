@@ -10,7 +10,7 @@ namespace Assets.Scripts.Input
     /// <summary>
     /// Abstraction for an input device to be used to fill an InputBuffer.
     /// </summary>
-    interface InputDevice
+    public interface InputDevice
     {
         InputState GetInputState();
     }
@@ -26,17 +26,15 @@ namespace Assets.Scripts.Input
 
         public InputState GetInputState()
         {
-            bool button1Pressed = keyboard[Key.J].ReadValue() == 1;
-            bool button2Pressed = keyboard[Key.K].ReadValue() == 1;
-            bool button3Pressed = keyboard[Key.U].ReadValue() == 1;
-            bool button4Pressed = keyboard[Key.I].ReadValue() == 1;
+            var buttons = new HashSet<Button>();
+            if (keyboard[Key.J].ReadValue() == 1) buttons.Add(Button.BUTTON1);
+            if (keyboard[Key.K].ReadValue() == 1) buttons.Add(Button.BUTTON2);
+            if (keyboard[Key.U].ReadValue() == 1) buttons.Add(Button.BUTTON3);
+            if (keyboard[Key.I].ReadValue() == 1) buttons.Add(Button.BUTTON4);
             JoystickPosition joystickPosition = getJoystickPosition();
 
             return new InputState(
-                    button1Pressed,
-                    button2Pressed,
-                    button3Pressed,
-                    button4Pressed,
+                    buttons,
                     joystickPosition);
         }
 
@@ -66,23 +64,18 @@ namespace Assets.Scripts.Input
     /// </summary>
     public class InputState
     {
-        public IDictionary<Button, bool> buttons { get; }
-        public JoystickPosition joystickPosition { get; }
+        public HashSet<Button> Buttons { get; }
+        public JoystickPosition JoystickPosition { get; }
+
+        public InputState(JoystickPosition joystickPosition)
+            : this(new HashSet<Button>(), joystickPosition) {}
 
         public InputState(
-            bool button1Pressed,
-            bool button2Pressed,
-            bool button3Pressed,
-            bool button4Pressed,
+            IEnumerable<Button> pressedButtons,
             JoystickPosition joystickPosition)
         {
-            buttons = new Dictionary<Button, bool>() {
-                [Button.BUTTON1] = button1Pressed,
-                [Button.BUTTON2] = button2Pressed,
-                [Button.BUTTON3] = button3Pressed,
-                [Button.BUTTON4] = button4Pressed,
-            };
-            this.joystickPosition = joystickPosition;
+            this.Buttons = new HashSet<Button>(pressedButtons);
+            this.JoystickPosition = joystickPosition;
         }
     }
 
