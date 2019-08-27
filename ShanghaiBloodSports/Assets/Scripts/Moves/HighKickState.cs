@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,13 @@ namespace Assets.Scripts.Moves
     public class HighKickTrinket : MoveTrinket
     {
         private readonly Animator animator;
-        private readonly MockInputBuffer inputBuffer;
+        private readonly InputBuffer inputBuffer;
+
+        private static readonly InputSequence inputSequence =
+            new InputSequence(new List<Input.Input> {
+                new Input.Input(JoystickPosition.RIGHT),
+                new Input.Input(Button.BUTTON2)
+            });
 
         public override string Name => "Chin Splitter";
         public override string Description => "It turns out that a split chin hurts a little more";
@@ -54,7 +61,7 @@ namespace Assets.Scripts.Moves
         public HighKickTrinket(
             Character owner,
             Animator animator,
-            MockInputBuffer inputBuffer) : base(owner)
+            InputBuffer inputBuffer) : base(owner)
         {
             this.animator = animator;
             this.inputBuffer = inputBuffer;
@@ -62,7 +69,7 @@ namespace Assets.Scripts.Moves
 
         public override void OnUpdate()
         {
-            if (inputBuffer.Match(KeyCode.I))
+            if (inputBuffer.Match(inputSequence))
             {
                 animator.SetTrigger("high_kick");
             }

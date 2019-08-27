@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Events;
+using Assets.Scripts.Input;
 using UnityEngine;
 
 namespace Assets.Scripts.Moves

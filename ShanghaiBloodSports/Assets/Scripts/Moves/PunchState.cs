@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assets.Scripts.Events;
+using Assets.Scripts.Input;
 using UnityEngine;
 
 namespace Assets.Scripts.Moves
@@ -46,7 +47,13 @@ namespace Assets.Scripts.Moves
     public class PunchTrinket : MoveTrinket
     {
         private readonly Animator animator;
-        private readonly MockInputBuffer inputBuffer;
+        private readonly InputBuffer inputBuffer;
+        
+        private static readonly InputSequence inputSequence =
+            new InputSequence(new List<Input.Input> {
+                new Input.Input(JoystickPosition.RIGHT),
+                new Input.Input(Button.BUTTON1)
+            });
 
         public override string Name => "Fist of the North Star";
         public override string Description => "Omae wa mou shindeiru";
@@ -55,7 +62,7 @@ namespace Assets.Scripts.Moves
         public PunchTrinket(
             Character owner,
             Animator animator,
-            MockInputBuffer inputBuffer) : base(owner)
+            InputBuffer inputBuffer) : base(owner)
         {
             this.animator = animator;
             this.inputBuffer = inputBuffer;
@@ -63,7 +70,7 @@ namespace Assets.Scripts.Moves
 
         public override void OnUpdate()
         {
-            if (inputBuffer.Match(KeyCode.J))
+            if (inputBuffer.Match(inputSequence))
             {
                 animator.SetTrigger("punch");
             }

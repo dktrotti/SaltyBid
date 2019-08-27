@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,14 @@ namespace Assets.Scripts.Moves
     public class LowKickTrinket : MoveTrinket
     {
         private readonly Animator animator;
-        private readonly MockInputBuffer inputBuffer;
+        private readonly InputBuffer inputBuffer;
+
+        private static readonly InputSequence inputSequence =
+            new InputSequence(new List<Input.Input> {
+                new Input.Input(JoystickPosition.DOWN),
+                new Input.Input(JoystickPosition.DOWN_RIGHT),
+                new Input.Input(Button.BUTTON2)
+            });
 
         public override string Name => "Shin Splitter";
         public override string Description => "Stop it! That kind of hurts!";
@@ -54,7 +62,7 @@ namespace Assets.Scripts.Moves
         public LowKickTrinket(
             Character owner,
             Animator animator,
-            MockInputBuffer inputBuffer) : base(owner)
+            InputBuffer inputBuffer) : base(owner)
         {
             this.animator = animator;
             this.inputBuffer = inputBuffer;
@@ -62,7 +70,7 @@ namespace Assets.Scripts.Moves
 
         public override void OnUpdate()
         {
-            if (inputBuffer.Match(KeyCode.K))
+            if (inputBuffer.Match(inputSequence))
             {
                 animator.SetTrigger("low_kick");
             }
