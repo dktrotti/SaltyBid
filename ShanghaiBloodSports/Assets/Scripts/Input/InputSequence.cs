@@ -18,6 +18,8 @@ namespace Assets.Scripts.Input
         {
             this.Inputs = inputs;
         }
+
+        public InputSequence(Input input) : this(new List<Input>() { input }) {}
     }
 
     /// <summary>

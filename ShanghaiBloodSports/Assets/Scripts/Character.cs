@@ -1,17 +1,19 @@
 ﻿using Assets.Scripts.Events;
+using Assets.Scripts.Input;
 using Assets.Scripts.Moves;
 using Assets.Scripts.Trinkets.BaseTrinkets;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Input = Assets.Scripts.Input.Input;
 
 public class Character : MonoBehaviour
 {
     public float speed = 3f;
     private Rigidbody2D rigidBody;
     private bool grounded = false;
-    private MockInputBuffer inputBuffer;
+    private InputBuffer inputBuffer;
     private EventManager eventManager;
     private List<TrinketBase> trinkets = new List<TrinketBase>();
 
@@ -44,7 +46,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         Opponent = FindObjectsOfType<Character>().Where(c => c != this).Single();
-        inputBuffer = GetComponent<MockInputBuffer>();
+        inputBuffer = GetComponent<InputBuffer>();
         rigidBody = GetComponent<Rigidbody2D>();
         // TODO: Turn this into a singleton? Or maybe add a way to get it from the scene?
         eventManager = GameObject.Find("FightScene")?.GetComponent<EventManager>();
@@ -59,12 +61,12 @@ public class Character : MonoBehaviour
         {
             CurrentState = State.MIDAIR;
         }
-        else if (inputBuffer?.Peek(KeyCode.A) ?? false)
+        else if (inputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.LEFT)
         {
             CurrentState = State.BACK_WALK;
             rigidBody.velocity = new Vector3(-1 * speed, rigidBody.velocity.y, 0);
         }
-        else if (inputBuffer?.Peek(KeyCode.D) ?? false)
+        else if (inputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.RIGHT)
         {
             CurrentState = State.FORWARD_WALK;
             rigidBody.velocity = new Vector3(speed, rigidBody.velocity.y, 0);
@@ -74,9 +76,9 @@ public class Character : MonoBehaviour
             CurrentState = State.NEUTRAL;
         }
 
-        if ((inputBuffer?.Match(KeyCode.Space) ?? false) && CurrentState != State.MIDAIR)
+        if ((inputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.UP) && CurrentState != State.MIDAIR)
         {
-            rigidBody.AddForce(new Vector3(0, 300, 0));
+            rigidBody.AddForce(new Vector3(0, 90, 0));
         }
     }
 

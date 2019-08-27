@@ -14,17 +14,18 @@ namespace Assets.Scripts.Input
     public class InputBuffer : MonoBehaviour
     {
         private readonly InputBufferImpl buffer = new InputBufferImpl();
-        private InputDevice device;
+
+        public InputDevice Device { get; private set; }
 
         void Start()
         {
             // TODO: Stop using hardcoded device
-            device = new KeyboardDevice(Keyboard.current);
+            Device = new KeyboardDevice(Keyboard.current);
         }
 
         void Update()
         {
-            buffer.AddInputState(device.GetInputState());
+            buffer.AddInputState(Device.GetInputState());
         }
 
         public bool Match(InputSequence sequence)
