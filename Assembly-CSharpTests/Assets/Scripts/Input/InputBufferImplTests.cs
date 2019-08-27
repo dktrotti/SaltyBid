@@ -151,6 +151,26 @@ namespace Assets.Scripts.Input.Tests
 
             buffer.AddInputState(new InputState(JoystickPosition.DOWN));
             buffer.AddInputState(new InputState(JoystickPosition.DOWN_LEFT));
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN));
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN_LEFT));
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN));
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN_LEFT));
+
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN));
+            buffer.AddInputState(new InputState(JoystickPosition.DOWN_RIGHT));
+            buffer.AddInputState(new InputState(JoystickPosition.RIGHT));
+            buffer.AddInputState(new InputState(
+                new HashSet<Button>() { Button.BUTTON1 },
+                JoystickPosition.NEUTRAL));
+
+            Assert.IsTrue(buffer.Match(SEQUENCE));
+            Assert.IsFalse(buffer.Match(sequence2));
+        }
+
+        [Test]
+        public void WhenSequenceIsMatched_InputsFromSequenceAreCleared()
+        {
+            var sequence2 = new InputSequence(new List<Input>() { SEQUENCE.Inputs.Last() });
 
             buffer.AddInputState(new InputState(JoystickPosition.DOWN));
             buffer.AddInputState(new InputState(JoystickPosition.DOWN_RIGHT));

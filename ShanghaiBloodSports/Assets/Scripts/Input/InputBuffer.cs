@@ -67,7 +67,8 @@ namespace Assets.Scripts.Input
             int index = find(sequence);
             if (index != -1)
             {
-                trimBuffer(index);
+                var newLen = buffer.Count - (index + 1);
+                trimBuffer(newLen);
             }
             return index != -1;
         }
@@ -78,7 +79,7 @@ namespace Assets.Scripts.Input
         }
 
         /// <summary>
-        /// Finds the index of the first (i.e most recent) InputState matching
+        /// Finds the index of the first (i.e oldest) InputState matching
         /// the provided sequence, or -1 if not found.
         /// </summary>
         private int find(InputSequence sequence)
