@@ -78,7 +78,7 @@ public class Character : MonoBehaviour
 
         if ((inputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.UP) && CurrentState != State.MIDAIR)
         {
-            rigidBody.AddForce(new Vector3(0, 90, 0));
+            rigidBody.AddForce(new Vector3(0, 180, 0));
         }
     }
 

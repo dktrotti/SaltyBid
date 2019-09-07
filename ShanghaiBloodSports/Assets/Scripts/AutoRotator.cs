@@ -24,6 +24,11 @@ public class AutoRotator : MonoBehaviour
         prevState = newState;
     }
 
+    public bool FacingRight()
+    {
+        return prevState;
+    }
+
     private bool ToLeftOfOpponent()
     {
         var opponent = GetComponent<Character>()?.Opponent;

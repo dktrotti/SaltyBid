@@ -27,10 +27,10 @@ namespace Assets.Scripts.Input
         public InputState GetInputState()
         {
             var buttons = new HashSet<Button>();
-            if (keyboard[Key.J].ReadValue() == 1) buttons.Add(Button.BUTTON1);
-            if (keyboard[Key.K].ReadValue() == 1) buttons.Add(Button.BUTTON2);
-            if (keyboard[Key.U].ReadValue() == 1) buttons.Add(Button.BUTTON3);
-            if (keyboard[Key.I].ReadValue() == 1) buttons.Add(Button.BUTTON4);
+            if (keyboard[Key.J].ReadValue() == 1) { buttons.Add(Button.BUTTON1); }
+            if (keyboard[Key.K].ReadValue() == 1) { buttons.Add(Button.BUTTON2); }
+            if (keyboard[Key.U].ReadValue() == 1) { buttons.Add(Button.BUTTON3); }
+            if (keyboard[Key.I].ReadValue() == 1) { buttons.Add(Button.BUTTON4); }
             JoystickPosition joystickPosition = getJoystickPosition();
 
             return new InputState(
@@ -47,15 +47,15 @@ namespace Assets.Scripts.Input
 
             // Note: This assumes that an invalid combination will never be pressed.
             // This logic could definitely be improved.
-            if (leftPressed && upPressed) return JoystickPosition.UP_LEFT;
-            else if (leftPressed && downPressed) return JoystickPosition.DOWN_LEFT;
-            else if (rightPressed && upPressed) return JoystickPosition.UP_RIGHT;
-            else if (rightPressed && downPressed) return JoystickPosition.DOWN_RIGHT;
-            else if (upPressed) return JoystickPosition.UP;
-            else if (downPressed) return JoystickPosition.DOWN;
-            else if (leftPressed) return JoystickPosition.LEFT;
-            else if (rightPressed) return JoystickPosition.RIGHT;
-            else return JoystickPosition.NEUTRAL;
+            if (leftPressed && upPressed) { return JoystickPosition.UP_LEFT; }
+            else if (leftPressed && downPressed) { return JoystickPosition.DOWN_LEFT; }
+            else if (rightPressed && upPressed) { return JoystickPosition.UP_RIGHT; }
+            else if (rightPressed && downPressed) { return JoystickPosition.DOWN_RIGHT; }
+            else if (upPressed) { return JoystickPosition.UP; }
+            else if (downPressed) { return JoystickPosition.DOWN; }
+            else if (leftPressed) { return JoystickPosition.LEFT; }
+            else if (rightPressed) { return JoystickPosition.RIGHT; }
+            else { return JoystickPosition.NEUTRAL; }
         }
     }
 
@@ -89,14 +89,42 @@ namespace Assets.Scripts.Input
 
     public enum JoystickPosition
     {
-        UP_LEFT,
-        UP,
-        UP_RIGHT,
-        LEFT,
-        NEUTRAL,
-        RIGHT,
         DOWN_LEFT,
+        LEFT,
+        UP_LEFT,
+        DOWN_RIGHT,
+        RIGHT,
+        UP_RIGHT,
         DOWN,
-        DOWN_RIGHT
+        NEUTRAL,
+        UP
+    }
+
+    public enum RelativeJoystickPosition
+    {
+        DOWN_BACKWARD,
+        BACKWARD,
+        UP_BACKWARD,
+        DOWN_FORWARD,
+        FORWARD,
+        UP_FORWARD,
+        DOWN,
+        NEUTRAL,
+        UP
+    }
+
+    public static class RelativeExtensions
+    { 
+        public static JoystickPosition ToAbsolute(this RelativeJoystickPosition position)
+        {
+            return (JoystickPosition)((int)position);
+        }
+
+        public static JoystickPosition ToAbsoluteReverse(this RelativeJoystickPosition position)
+        {
+            // TODO: Find a better way to do this conversion that doesn't rely on magic
+            var val = (int)position;
+            return (JoystickPosition)(val < 6 ? (val + 3) % 6 : val);
+        }
     }
 }

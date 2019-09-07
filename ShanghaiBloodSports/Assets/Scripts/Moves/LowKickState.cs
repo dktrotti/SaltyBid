@@ -47,12 +47,13 @@ namespace Assets.Scripts.Moves
     {
         private readonly Animator animator;
         private readonly InputBuffer inputBuffer;
+        private readonly InputTranslator inputTranslator;
 
-        private static readonly InputSequence inputSequence =
-            new InputSequence(new List<Input.Input> {
-                new Input.Input(JoystickPosition.DOWN),
-                new Input.Input(JoystickPosition.DOWN_RIGHT),
-                new Input.Input(Button.BUTTON2)
+        private static readonly RelativeInputSequence inputSequence =
+            new RelativeInputSequence(new List<RelativeInput> {
+                new RelativeInput(RelativeJoystickPosition.DOWN),
+                new RelativeInput(RelativeJoystickPosition.DOWN_FORWARD),
+                new RelativeInput(Button.BUTTON2)
             });
 
         public override string Name => "Shin Splitter";
@@ -62,15 +63,17 @@ namespace Assets.Scripts.Moves
         public LowKickTrinket(
             Character owner,
             Animator animator,
-            InputBuffer inputBuffer) : base(owner)
+            InputBuffer inputBuffer,
+            InputTranslator inputTranslator) : base(owner)
         {
             this.animator = animator;
             this.inputBuffer = inputBuffer;
+            this.inputTranslator = inputTranslator;
         }
 
         public override void OnUpdate()
         {
-            if (inputBuffer.Match(inputSequence))
+            if (inputBuffer.Match(inputTranslator.Translate(inputSequence)))
             {
                 animator.SetTrigger("low_kick");
             }
