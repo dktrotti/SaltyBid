@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assets.Scripts.Input
 {
@@ -20,6 +16,22 @@ namespace Assets.Scripts.Input
         }
 
         public InputSequence(Input input) : this(new List<Input>() { input }) {}
+    }
+
+    /// <summary>
+    /// Represents a sequence of inputs relative to a charater's orientation.
+    /// </summary>
+    // TODO: Is this class necessary?
+    public class RelativeInputSequence
+    {
+        public IEnumerable<RelativeInput> Inputs { get; }
+
+        public RelativeInputSequence(IEnumerable<RelativeInput> inputs)
+        {
+            this.Inputs = inputs;
+        }
+
+        public RelativeInputSequence(RelativeInput input) : this(new List<RelativeInput>() { input }) { }
     }
 
     /// <summary>
@@ -51,7 +63,7 @@ namespace Assets.Scripts.Input
         /// the InputSequence. If the state does match, this method will also
         /// advance the internal position in the sequence.
         /// 
-        /// Note: Will always return true if the full input sequence has been\
+        /// Note: Will always return true if the full input sequence has been
         /// matched.
         /// </summary>
         public bool isMatch(InputState inputState)
@@ -90,10 +102,42 @@ namespace Assets.Scripts.Input
     /// <summary>
     /// Represents a required input as part of an InputSequence.
     /// </summary>
+    public class RelativeInput
+    {
+        public HashSet<Button> Buttons { get; }
+        public RelativeJoystickPosition? JoystickPosition { get; }
+
+        public RelativeInput(Button button)
+        {
+            this.Buttons = new HashSet<Button>() { button };
+            this.JoystickPosition = null;
+        }
+
+        public RelativeInput(RelativeJoystickPosition joystickPosition)
+        {
+            this.Buttons = new HashSet<Button>();
+            this.JoystickPosition = joystickPosition;
+        }
+
+        public RelativeInput(IEnumerable<Button> buttons, RelativeJoystickPosition joystickPosition)
+        {
+            this.Buttons = new HashSet<Button>(buttons);
+            this.JoystickPosition = joystickPosition;
+        }
+    }
+    
     public class Input
     {
         public HashSet<Button> Buttons { get; }
         public JoystickPosition? JoystickPosition { get; }
+
+        public Input(RelativeInput input, bool facingRight)
+        {
+            this.Buttons = input.Buttons;
+            this.JoystickPosition = facingRight
+                    ? input.JoystickPosition?.ToAbsolute()
+                    : input.JoystickPosition?.ToAbsoluteReverse();
+        }
 
         public Input(Button button)
         {
