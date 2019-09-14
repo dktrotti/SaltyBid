@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Input;
 using Assets.Scripts.Moves;
+using Assets.Scripts.Trinkets.Tier0;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,33 +18,13 @@ public class SamplePlayer : MonoBehaviour
         character.EquipTrinket(new PunchTrinket(character, animator));
         character.EquipTrinket(new LowKickTrinket(character, animator));
         character.EquipTrinket(new HighKickTrinket(character, animator));
+        character.EquipTrinket(new LowBlockTrinket(animator));
+        character.EquipTrinket(new HighBlockTrinket(animator));
     }
 
     // Update is called once per frame
     void Update()
     {
-        // TODO: Reimplement blocking using a trinket
-        //if (animator.GetCurrentAnimatorStateInfo(0).IsName("neutral"))
-        //{
-        //    if (inputBuffer.Peek(KeyCode.O))
-        //    {
-        //        animator.SetBool("high_block", true);
-        //    }
 
-        //    if (inputBuffer.Peek(KeyCode.L))
-        //    {
-        //        animator.SetBool("low_block", true);
-        //    }
-        //}
-
-        //if (!inputBuffer.Peek(KeyCode.O))
-        //{
-        //    animator.SetBool("high_block", false);
-        //}
-
-        //if (!inputBuffer.Peek(KeyCode.L))
-        //{
-        //    animator.SetBool("low_block", false);
-        //}
     }
 }
