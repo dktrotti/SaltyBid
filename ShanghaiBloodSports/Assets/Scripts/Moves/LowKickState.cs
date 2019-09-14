@@ -46,8 +46,6 @@ namespace Assets.Scripts.Moves
     public class LowKickTrinket : MoveTrinket
     {
         private readonly Animator animator;
-        private readonly InputBuffer inputBuffer;
-        private readonly InputTranslator inputTranslator;
 
         private static readonly RelativeInputSequence inputSequence =
             new RelativeInputSequence(new List<RelativeInput> {
@@ -62,18 +60,16 @@ namespace Assets.Scripts.Moves
 
         public LowKickTrinket(
             Character owner,
-            Animator animator,
-            InputBuffer inputBuffer,
-            InputTranslator inputTranslator) : base(owner)
+            Animator animator) : base(owner)
         {
             this.animator = animator;
-            this.inputBuffer = inputBuffer;
-            this.inputTranslator = inputTranslator;
         }
 
         public override void OnUpdate()
         {
-            if (inputBuffer.Match(inputTranslator.Translate(inputSequence)))
+            var buffer = owner.InputBuffer;
+            var translator = owner.InputTranslator;
+            if (buffer.Match(translator.Translate(inputSequence)))
             {
                 animator.SetTrigger("low_kick");
             }
