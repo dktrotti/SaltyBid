@@ -7,21 +7,16 @@ using UnityEngine;
 [RequireComponent(typeof(Character))]
 public class SamplePlayer : MonoBehaviour
 {
-    // TODO: Move Input classes into Character
-    private InputBuffer inputBuffer;
-    private InputTranslator inputTranslator;
     private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        inputBuffer = GetComponent<InputBuffer>();
-        inputTranslator = GetComponent<InputTranslator>();
         animator = GetComponentInChildren<Animator>();
         Character character = GetComponent<Character>();
-        character.EquipTrinket(new PunchTrinket(character, animator, inputBuffer, inputTranslator));
-        character.EquipTrinket(new LowKickTrinket(character, animator, inputBuffer, inputTranslator));
-        character.EquipTrinket(new HighKickTrinket(character, animator, inputBuffer, inputTranslator));
+        character.EquipTrinket(new PunchTrinket(character, animator));
+        character.EquipTrinket(new LowKickTrinket(character, animator));
+        character.EquipTrinket(new HighKickTrinket(character, animator));
     }
 
     // Update is called once per frame

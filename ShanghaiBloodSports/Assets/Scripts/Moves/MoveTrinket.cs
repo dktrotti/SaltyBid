@@ -12,7 +12,7 @@ namespace Assets.Scripts.Moves
     public abstract class MoveTrinket : TrinketBase
     {
         private readonly GameEventHandler handler;
-        private readonly Character owner;
+        protected readonly Character owner;
 
         public override GameEventHandler EventHandler => handler;
 

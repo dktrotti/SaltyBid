@@ -7,11 +7,18 @@ using UnityEngine.InputSystem;
 
 namespace Assets.Scripts.Input
 {
+    public interface IInputBuffer
+    {
+        InputDevice Device { get; }
+        bool Match(InputSequence sequence);
+        bool Peek(InputSequence sequence);
+    }
+
     /// <summary>
     /// Stores a fixed length history of inputs, and allows matching against an
     /// InputSequence to check whether a set of inputs has been received.
     /// </summary>
-    public class InputBuffer : MonoBehaviour
+    public class InputBuffer : MonoBehaviour, IInputBuffer
     {
         private readonly InputBufferImpl buffer = new InputBufferImpl();
 
