@@ -15,9 +15,9 @@ public class Character : MonoBehaviour
     private bool grounded = false;
     private EventManager eventManager;
     private List<TrinketBase> trinkets = new List<TrinketBase>();
+    private Animator animator;
 
     public Character Opponent { get; private set; }
-    public State CurrentState { get; private set; } = State.NEUTRAL;
     public double Health { get; set; } = 100;
     public double Guard { get; set; } = 100;
     public IInputBuffer InputBuffer { get; private set; }
@@ -50,6 +50,7 @@ public class Character : MonoBehaviour
         InputBuffer = GetComponent<IInputBuffer>();
         InputTranslator = GetComponent<InputTranslator>();
         rigidBody = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
         // TODO: Turn this into a singleton? Or maybe add a way to get it from the scene?
         eventManager = GameObject.Find("FightScene")?.GetComponent<EventManager>();
 
@@ -59,26 +60,33 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!grounded)
+        animator.SetBool("midair", !grounded);
+        var joystickPos = InputBuffer?.Device.GetInputState().JoystickPosition;
+
+        if (grounded)
         {
-            CurrentState = State.MIDAIR;
-        }
-        else if (InputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.LEFT)
-        {
-            CurrentState = State.BACK_WALK;
-            rigidBody.velocity = new Vector3(-1 * speed, rigidBody.velocity.y, 0);
-        }
-        else if (InputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.RIGHT)
-        {
-            CurrentState = State.FORWARD_WALK;
-            rigidBody.velocity = new Vector3(speed, rigidBody.velocity.y, 0);
-        }
-        else
-        {
-            CurrentState = State.NEUTRAL;
+            if (joystickPos == JoystickPosition.RIGHT)
+            {
+                animator.SetBool("back_walk", false);
+                animator.SetBool("forward_walk", true);
+                rigidBody.velocity = new Vector3(speed, rigidBody.velocity.y, 0);
+            }
+            else if (joystickPos == JoystickPosition.LEFT)
+            {
+                animator.SetBool("back_walk", true);
+                animator.SetBool("forward_walk", false);
+                rigidBody.velocity = new Vector3(-1 * speed, rigidBody.velocity.y, 0);
+            }
+            else
+            {
+                animator.SetBool("back_walk", false);
+                animator.SetBool("forward_walk", false);
+            }
         }
 
-        if ((InputBuffer?.Device.GetInputState().JoystickPosition == JoystickPosition.UP) && CurrentState != State.MIDAIR)
+        if ((joystickPos == JoystickPosition.UP
+            || joystickPos == JoystickPosition.UP_LEFT
+            || joystickPos == JoystickPosition.UP_RIGHT) && grounded)
         {
             rigidBody.AddForce(new Vector3(0, 180, 0));
         }
@@ -138,14 +146,6 @@ public class Character : MonoBehaviour
             new DeathTrinket()
         };
     }
-
-    public enum State
-    {
-        NEUTRAL,
-        MIDAIR,
-        BACK_WALK,
-        FORWARD_WALK
-    };
 
     public class HitboxPath
     {
